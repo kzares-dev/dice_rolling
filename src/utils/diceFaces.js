@@ -23,36 +23,13 @@ class DiceFaces {
         console.log("x")
         const newAxis = {
             x: this.axis.x,
-            _x: this.axis._x,
-
             y: this.axis.z,
-            _y: this.axis._z,
-
             z: this.axis.y,
-            _z: this.axis._y,
-
-        };
-        console.log(newAxis)
-        this.axis = newAxis;
-        console.log(newAxis)
-
-    };
-    rotation_X() {
-        console.log("_x")
-        const newAxis = {
-            x: this.axis.x,
-            _x: this.axis.x,
-
-            y: this.axis.z,
-            _y: this.axis._z,
-
-            z: this.axis.y,
-            _z: this.axis._y,
-
         };
 
-        this.axis = newAxis;
         console.log(newAxis)
+        this.axis = newAxis;
+
     };
 
     rotationY() {
@@ -60,14 +37,8 @@ class DiceFaces {
 
         const newAxis = {
             x: this.axis.z,
-            _x: this.axis._z,
-
             y: this.axis.y,
-            _y: this.axis._y,
-
             z: this.axis.x,
-            _z: this.axis._x,
-
 
         };
         console.log(newAxis)
@@ -75,63 +46,18 @@ class DiceFaces {
 
         this.axis = newAxis;
         console.log(newAxis)
-
-    };
-
-    rotation_Y() {
-        console.log("_y")
-
-        const newAxis = {
-            x: this.axis.z,
-            _x: this.axis._z,
-
-            y: this.axis.y,
-            _y: this.axis._y,
-
-            z: this.axis.x,
-            _z: this.axis._x,
-        };
-
-        this.axis = newAxis;
-        console.log(newAxis)
-
-
     };
 
     rotationZ() {
         console.log("z")
         const newAxis = {
             x: this.axis.y,
-            _x: this.axis._y,
-
             y: this.axis.x,
-            _y: this.axis._x,
-
             z: this.axis.z,
-            _z: this.axis._z,
         };
 
         this.axis = newAxis;
         console.log(newAxis)
-    };
-
-    rotation_Z() {
-        console.log("_z")
-        const newAxis = {
-            x: this.axis._y,
-            _x: this.axis.y,
-
-            y: this.axis._x,
-            _y: this.axis.x,
-
-            z: this.axis.z,
-            _z: this.axis._z,
-        };
-
-        this.axis = newAxis;
-        console.log(newAxis)
-
-
     };
 
     findCorrespondingAxis(axis) {

@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSpring, animated } from '@react-spring/three';
 import { RoundedBox, Text } from '@react-three/drei';
-import diceFaces from "../utils/diceFaces"
 
 export const Cube = ({ setIsAnimating, setCubeRotation, diceSetting }) => {
   const meshRef = useRef();
@@ -14,7 +13,7 @@ export const Cube = ({ setIsAnimating, setCubeRotation, diceSetting }) => {
   const props = useSpring({
     from: { rotation: [0, 0, 0] },
     to: { rotation: [(Math.PI / 2) * xRotations, (Math.PI / 2) * yRotations, 0] },
-    config: { duration: 180 },
+    config: { duration: 170 },
     reverse: false,
 
   });
@@ -23,7 +22,6 @@ export const Cube = ({ setIsAnimating, setCubeRotation, diceSetting }) => {
     if (isRotating) return
     setIsRotating(true)
 
-    //const rotations = [0,1,0]
     for (let i = 0; i < animationTime/200; i++) {
 
       setTimeout(() => {
@@ -31,12 +29,10 @@ export const Cube = ({ setIsAnimating, setCubeRotation, diceSetting }) => {
 
         if (rand === 0) {
           setXRotations((prev) => prev + 1);
-          diceFaces.calculateAxis("x")
         } else {
           setYRotations((prev) => prev + 1)
-          diceFaces.calculateAxis("y")
         }
-      }, 200 * (i+1))
+      }, 200 * i)
 
     }
     setTimeout(() => {
