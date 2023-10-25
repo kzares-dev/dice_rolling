@@ -8,9 +8,9 @@
 
 Contains two principal states
  
-1.*[diceSetting, setDiceSettings]*: this state is passed to all other components and store the dice data sush as the _faces text_ , _dice size_, _animation duration_
+1.**[diceSetting, setDiceSettings]**: this state is passed to all other components and store the dice data sush as the _faces text_ , _dice size_, _animation duration_
 
-2.*[diceWorkflow, setDiceWorkflow]*: this state handle all the workflow, that means, he controlls when the _dice displays_, the _results are show_, and the _dice animation_
+2.**[diceWorkflow, setDiceWorkflow]**: this state handle all the workflow, that means, he controlls when the _dice displays_, the _results are show_, and the _dice animation_
 
 ### Components
 
