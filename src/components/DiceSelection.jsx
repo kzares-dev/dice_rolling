@@ -8,7 +8,13 @@ function DiceSelection({
     setDiceWorkflow,
 }) {
 
-
+    const changeWinning = (face) => {
+        return () => {
+            let updatedFaces = { ...diceSetting.faces };
+            updatedFaces[face][1] = !updatedFaces[face][1];
+            setDiceSettings({ ...diceSetting, faces: updatedFaces });
+        }
+    }
     return (
         <section className="flex-1 flex items-center justify-center ">
             <div className=" shadow-md bg-[#fff] p-9 rounded-xl w-full mx-3 max-w-[700px] items-center">
@@ -51,51 +57,69 @@ function DiceSelection({
                     <TextInput
                         label="Front Face"
                         placeholder="Front Face"
-                        value={diceSetting.front}
-                        onChange={(e) => setDiceSettings({ ...diceSetting, front: e.target.value })}
+                        value={diceSetting.faces.front[0]}
+                        onChange={(e) => setDiceSettings({ ...diceSetting, faces: { ...diceSetting.faces, front: [e.target.value, diceSetting.faces.front[1]] } })}
                     />
 
                     <TextInput
                         label="Back Face"
                         placeholder="Back Face"
-                        value={diceSetting.back}
-                        onChange={(e) => setDiceSettings({ ...diceSetting, back: e.target.value })}
-                    />
+                        value={diceSetting.faces.back[0]}
+                        onChange={(e) => setDiceSettings({ ...diceSetting, faces: { ...diceSetting.faces, back: [e.target.value, diceSetting.faces.back[1]] } })} />
                 </div>
 
                 <div className="flex items-center flex-col sm:flex-row space-x-3 ">
                     <TextInput
                         label="Top Face"
                         placeholder="Top Face"
-                        value={diceSetting.left}
-                        onChange={(e) => setDiceSettings({ ...diceSetting, left: e.target.value })}
-                    />
+                        value={diceSetting.faces.top[0]}
+                        onChange={(e) => setDiceSettings({ ...diceSetting, faces: { ...diceSetting.faces, top: [e.target.value, diceSetting.faces.top[1]] } })} />
 
                     <TextInput
                         label="Bottom Face"
                         placeholder="Bottom Face"
-                        value={diceSetting.top}
-                        onChange={(e) => setDiceSettings({ ...diceSetting, top: e.target.value })}
-                    />
+                        value={diceSetting.faces.bottom[0]}
+                        onChange={(e) => setDiceSettings({ ...diceSetting, faces: { ...diceSetting.faces, bottom: [e.target.value, diceSetting.faces.bottom[1]] } })} />
                 </div>
 
                 <div className="flex items-center flex-col sm:flex-row space-x-3 ">
                     <TextInput
                         label="Left Face"
                         placeholder="Left Face"
-                        value={diceSetting.bottom}
-                        onChange={(e) => setDiceSettings({ ...diceSetting, bottom: e.target.value })}
-                    />
+                        value={diceSetting.faces.left[0]}
+                        onChange={(e) => setDiceSettings({ ...diceSetting, faces: { ...diceSetting.faces, left: [e.target.value, diceSetting.faces.left[1]] } })} />
 
                     <TextInput
                         label="Rigth Face"
                         placeholder="Rigth Face"
-                        value={diceSetting.right}
-                        onChange={(e) => setDiceSettings({ ...diceSetting, right: e.target.value })}
-                    />
+                        value={diceSetting.faces.right[0]}
+                        onChange={(e) => setDiceSettings({ ...diceSetting, faces: { ...diceSetting.faces, right: [e.target.value, diceSetting.faces.right[1]] } })} />
                 </div>
 
-                <button onClick={() => setDiceWorkflow({...diceWorkflow, showDice: true}) } className="w-full h-[32px] text-white bg-[#3e404b]  font-[dice] cursor-pointer rounded-lg py-[2rem] flex items-center justify-center " >
+                <div className="flex flex-col py-5">
+                    <h1 className='text-[25px]' >Winning Faces: </h1>
+                    <div className="float-left gap-2 flex ">
+                        {Object.entries(diceSetting.faces).map(item => {
+                            if (item[1][1]) return (
+                                <p onClick={changeWinning(item[0])} className='float-left text-[20px] bg-[#3e404b] rounded-md py-1 px-5 text-white font-bold ' key={item[0]} > {item[0]} </p>
+                            )
+                        })}
+                    </div>
+                </div>
+
+                <div className="bg-[#3e404b] pr-[18px] pb-[50px] pl-[18px] w-full text-white rounded-md my-6 flex flex-col">
+                    <h1 className='text-[25px] pb-4' >Add a winning face:</h1>
+
+                    <div className="gap-2 flex">
+                        {Object.entries(diceSetting.faces).map(item => {
+                            if (!item[1][1]) return (
+                                <p onClick={changeWinning(item[0])} className='text-[20px] bg-white rounded-md py-1 px-5 text-[#3e404b] font-bold ' key={item[0]} > {item[0]} </p>
+                            )
+                        })}
+                    </div>
+                </div>
+
+                <button onClick={() => setDiceWorkflow({ ...diceWorkflow, showDice: true })} className="w-full h-[32px] text-white bg-[#3e404b]  font-[dice] cursor-pointer rounded-lg py-[2rem] flex items-center justify-center " >
                     Make it roll
                 </button>
 

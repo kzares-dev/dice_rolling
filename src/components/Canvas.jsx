@@ -18,31 +18,31 @@ const CanvasComponent = ({ diceSetting, diceWorkflow, setDiceWorkflow, isAnimati
             let diceResult;
             switch (faceNumber) {
                 case 1:
-                    diceResult = diceSetting.top;
+                    diceResult = diceSetting.faces.top;
                     break;
 
                 case 2:
-                    diceResult = diceSetting.right;
+                    diceResult = diceSetting.faces.right;
                     break;
 
                 case 3:
-                    diceResult = diceSetting.front;
+                    diceResult = diceSetting.faces.front;
                     break;
 
                 case 4:
-                    diceResult = diceSetting.back;
+                    diceResult = diceSetting.faces.back;
                     break;
 
                 case 5:
-                    diceResult = diceSetting.left;
+                    diceResult = diceSetting.faces.left;
                     break;
 
                 case 6:
-                    diceResult = diceSetting.bottom;
+                    diceResult = diceSetting.faces.bottom;
                     break;
                 default:
                     console.log("not found")
-                    diceResult = diceSetting.front;
+                    diceResult = diceSetting.faces.front;
 
 
             }

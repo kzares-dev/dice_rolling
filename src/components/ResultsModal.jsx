@@ -8,7 +8,7 @@ function ResultsModal({
     return (
         <section className=" fixed bottom-0 left-0 right-0 flex-1 flex items-center justify-center ">
             <div className=" shadow-md bg-[#3e404b] p-9 rounded-xl w-full mx-3 max-w-[700px] mb-4">
-                <h1 className="text-[40px] text-center pb-4 text-[#fff] " > Dice Result: {diceWorkflow.diceResult} </h1>
+                <h1 className="text-[25px] text-center pb-4 text-[#fff] flex-col gap-1 flex " > <span className='text-[50px]'>{diceWorkflow.diceResult[1]? "You Win!!!  " : "You Lose :( " }</span>   result:{diceWorkflow.diceResult[0]} </h1>
 
 
                 <div className="flex items-center justify-between gap-4 ">

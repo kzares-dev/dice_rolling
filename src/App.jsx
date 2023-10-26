@@ -5,17 +5,20 @@ import {
   ResultsModal,
 } from "./components"
 
-function App() {
+function App() {  
 
   const [diceSetting, setDiceSettings] = useState({
     spinTime: 3,
     diceSize: 1,
-    front: "Front",
-    back: "Back",
-    left: "left",
-    top: "top",
-    bottom: "bottom",
-    right: "right",
+    faces: {
+      front: ["Front", true],
+      back: ["Back", true],
+      left: ["left", true],
+      top: ["top", false],
+      bottom: ["bottom", false],
+      right: ["right", true],
+    },
+    
   });
   const [diceWorkflow, setDiceWorkflow] = useState({
     showDice: false,

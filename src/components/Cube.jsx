@@ -80,12 +80,12 @@ export const Cube = ({ setDiceWorkflow, diceWorkflow, diceSetting, setIsAnimatin
   return (
     <animated.mesh position={[0, 2, 0]} ref={meshRef} {...props}>
       <group>
-        <MeshWithText position={[0, 0, 5]} text={diceSetting.front} />
-        <MeshWithText position={[0, 0, 5]} text={diceSetting.back} rotation={[0, Math.PI, 0]} />
-        <MeshWithText position={[0, 0, 5]} text={diceSetting.right} rotation={[0, Math.PI / 2, 0]} />
-        <MeshWithText position={[0, 0, 5]} text={diceSetting.left} rotation={[0, -Math.PI / 2, 0]} />
-        <MeshWithText position={[0, 0, 5]} text={diceSetting.bottom} rotation={[Math.PI / 2, 0, 0]} />
-        <MeshWithText position={[0, 0, 5]} text={diceSetting.top} rotation={[-Math.PI / 2, 0, 0]} />
+        <MeshWithText position={[0, 0, 5]} text={diceSetting.faces.front[0]} />
+        <MeshWithText position={[0, 0, 5]} text={diceSetting.faces.back[0]} rotation={[0, Math.PI, 0]} />
+        <MeshWithText position={[0, 0, 5]} text={diceSetting.faces.right[0]} rotation={[0, Math.PI / 2, 0]} />
+        <MeshWithText position={[0, 0, 5]} text={diceSetting.faces.left[0]} rotation={[0, -Math.PI / 2, 0]} />
+        <MeshWithText position={[0, 0, 5]} text={diceSetting.faces.bottom[0]} rotation={[Math.PI / 2, 0, 0]} />
+        <MeshWithText position={[0, 0, 5]} text={diceSetting.faces.top[0]} rotation={[-Math.PI / 2, 0, 0]} />
       </group>
       <RoundedBox castShadow receiveShadow args={[10, 10, 10]} radius={1.2} rotation={[0, Math.PI / 2, 0]}>
         <meshPhysicalMaterial attach="material" color={'#3e404b'} metalness={2} />
