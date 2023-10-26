@@ -1,13 +1,11 @@
 import { useState } from "react"
-import CanvasComponent from "./components/Canvas"
-import TextInput from "./components/TextInput"
-import DiceSelection from "./components/DiceSelection"
-import ResultsModal from "./components/ResultsModal";
+import {
+  CanvasComponent,
+  DiceSelection,
+  ResultsModal,
+} from "./components"
 
 function App() {
-  const [showDice, setShowDice] = useState(false);
-  const [showResults, setShowResults] = useState(false)
-  const [diceRolling, setDiceRolling] = useState(true)
 
   const [diceSetting, setDiceSettings] = useState({
     spinTime: 3,
@@ -18,26 +16,43 @@ function App() {
     top: "top",
     bottom: "bottom",
     right: "right",
+  });
+  const [diceWorkflow, setDiceWorkflow] = useState({
+    showDice: false,
+    showResults: false,
+
+    diceQuaternion: null,
+    diceResult: null,
   })
+  //this state is nesesary to make separated in order to mantain the reactivity
+  const [isAnimating, setIsAnimating] = useState(true)
 
   return (
     <main className="flex w-full h-full">
-      {showDice ?
+      {diceWorkflow.showDice ?
         <CanvasComponent
-          isAnimating={diceRolling}
-          setIsAnimating={setDiceRolling}
-          showResults={showResults}
-          setShowResults={setShowResults}
+          isAnimating={isAnimating}
           diceSetting={diceSetting}
+          diceWorkflow={diceWorkflow}
+
+          setIsAnimating={setIsAnimating}
+          setDiceSettings={setDiceSettings}
+          setDiceWorkflow={setDiceWorkflow}
         /> :
         <DiceSelection
-          setDiceRolling={setDiceRolling}
           diceSetting={diceSetting}
+          diceWorkflow={diceWorkflow}
+
           setDiceSettings={setDiceSettings}
-          setShowDice={setShowDice}
+          setDiceWorkflow={setDiceWorkflow}
         />}
 
-      {showResults && <ResultsModal setDiceRolling={setDiceRolling} setShowResults={setShowResults} setShowDice={setShowDice} />}
+      {diceWorkflow.showResults &&
+        <ResultsModal
+          setIsAnimating={setIsAnimating}
+          diceWorkflow={diceWorkflow}
+          setDiceWorkflow={setDiceWorkflow}
+        />}
     </main>
   )
 }

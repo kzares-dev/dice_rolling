@@ -1,15 +1,20 @@
 import React from 'react'
 import TextInput from './TextInput'
-import InputRange from 'react-input-range';
 
-function DiceSelection({ setShowDice, diceSetting, setDiceSettings, setDiceRolling }) {
+function DiceSelection({
+    diceSetting,
+    diceWorkflow,
+    setDiceSettings,
+    setDiceWorkflow,
+}) {
+
 
     return (
         <section className="flex-1 flex items-center justify-center ">
             <div className=" shadow-md bg-[#fff] p-9 rounded-xl w-full mx-3 max-w-[700px] items-center">
 
                 <div className="flex items-center justify-center">
-                    <img className='w-[60px]' src="../public/dice.png" alt="" />
+                    <img className='w-[60px]' src="/dice.png" alt="" />
                 </div>
 
 
@@ -33,7 +38,7 @@ function DiceSelection({ setShowDice, diceSetting, setDiceSettings, setDiceRolli
                     <input
                         type="range"
                         value={diceSetting.diceSize}
-                        onChange={e => setDiceSettings({...diceSetting, diceSize:e.target.value })}
+                        onChange={e => setDiceSettings({ ...diceSetting, diceSize: e.target.value })}
                         min="4"
                         max="16"
                         step="1"
@@ -90,14 +95,9 @@ function DiceSelection({ setShowDice, diceSetting, setDiceSettings, setDiceRolli
                     />
                 </div>
 
-                <button onClick={() => {setShowDice(true); setDiceRolling(true)}} className="w-full h-[32px] text-white bg-[#3e404b]  font-[dice] cursor-pointer rounded-lg py-[2rem] flex items-center justify-center " >
+                <button onClick={() => setDiceWorkflow({...diceWorkflow, showDice: true}) } className="w-full h-[32px] text-white bg-[#3e404b]  font-[dice] cursor-pointer rounded-lg py-[2rem] flex items-center justify-center " >
                     Make it roll
                 </button>
-
-
-
-
-
 
 
             </div>

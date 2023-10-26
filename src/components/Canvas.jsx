@@ -1,30 +1,75 @@
 import { Physics } from '@react-three/cannon'
-import { Cube } from './Cube'
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Stats } from "@react-three/drei";
-import { useState } from 'react';
 import { CubeWithPhisics } from './CubeWithPhisics';
-import { Ground, ShadowGround } from "./Ground"
 import { useEffect } from 'react';
+import { calculateFace } from '../lib/calculateTopFace';
+import { Cube } from './Cube'
+import { Ground, ShadowGround } from "./Ground"
 
-const CanvasComponent = ({ diceSetting, setDiceSetting, setShowResults, isAnimating, setIsAnimating }) => {
 
-    const [cubeRotation, setCubeRotation] = useState([0, 0, 0])
+const CanvasComponent = ({ diceSetting, diceWorkflow, setDiceWorkflow, isAnimating, setIsAnimating }) => {
 
+    //checking if the dice is not rolling
+    //and based on that calculate the top face
     useEffect(() => {
-        if(!isAnimating) setShowResults(true)
-        else setShowResults(false)
+        if (!isAnimating) {
+            const faceNumber = calculateFace(diceWorkflow.diceQuaternion);
+
+            let diceResult;
+            switch (faceNumber) {
+                case 1:
+                    diceResult = diceSetting.top;
+                    break;
+
+                case 2:
+                    diceResult = diceSetting.right;
+                    break;
+
+                case 3:
+                    diceResult = diceSetting.front;
+                    break;
+
+                case 4:
+                    diceResult = diceSetting.back;
+                    break;
+
+                case 5:
+                    diceResult = diceSetting.left;
+                    break;
+
+                case 6:
+                    diceResult = diceSetting.bottom;
+                    break;
+                default:
+                    console.log("not found")
+                    diceResult = diceSetting.front;
+
+
+            }
+
+            //updating the state with the new information
+            //about the dice result, and displaying the result modal
+            setDiceWorkflow({
+                ...diceWorkflow,
+                diceResult: diceResult,
+                showResults: true,
+            })
+        }
     }, [isAnimating])
 
     return (
         <Canvas
             shadows
             gl={{ preserveDrawingBuffer: true }}
-            camera={{ position: [30 * (2- diceSetting.diceSize/10), 90 * (2- diceSetting.diceSize/10), 70 * (2- diceSetting.diceSize/10)], fov: 35 }}
+            camera={{
+                position:
+                    [30 * (2 - diceSetting.diceSize / 10),
+                    90 * (2 - diceSetting.diceSize / 10),
+                    70 * (2 - diceSetting.diceSize / 10)]
+                , fov: 35
+            }}
             className="w-full max-w-full h-full transition-all ease-in">
 
-
-            {/* Seting up the lights*/}
             <ambientLight intensity={1} />
 
             <directionalLight
@@ -49,22 +94,31 @@ const CanvasComponent = ({ diceSetting, setDiceSetting, setShowResults, isAnimat
                 shadow-camera-bottom={-10}
                 intensity={1}
             />
-            {isAnimating && <Cube id="cube" diceSetting={diceSetting} position={[0, 3, 0]} setIsAnimating={setIsAnimating} setCubeRotation={setCubeRotation} />}
-            {/* Rendering the cube attached to a ground */}
 
 
-            <Physics gravity={[0, -60, 0]}>
-                {!isAnimating && <CubeWithPhisics diceSetting={diceSetting} setDiceSetting={setDiceSetting} rotation={cubeRotation} setIsAnimating={setIsAnimating} id={"cubeWithPhisics"} position={[0, 3, 0]} />}
+            <Physics gravity={[0, -70, 3]} >
+
+                {!isAnimating ?
+                    <CubeWithPhisics
+                        diceSetting={diceSetting}
+                        diceWorkflow={diceWorkflow}
+                        setDiceWorkflow={setDiceWorkflow}
+                        position={[0, 3, 0]}
+                        id="cubeWithPhisics"
+                    /> :
+                    <Cube
+                        id="cube"
+                        setIsAnimating={setIsAnimating}
+                        diceSetting={diceSetting}
+                        diceWorkflow={diceWorkflow}
+                        setDiceWorkflow={setDiceWorkflow}
+                        position={[0, 3, 0]} />
+                }
+
                 <Ground />
                 <ShadowGround />
             </Physics>
 
-
-
-
-            {/* Controlling the camera by moving around the sceen */}
-            <OrbitControls />
-            <Stats />
         </Canvas>
     );
 };

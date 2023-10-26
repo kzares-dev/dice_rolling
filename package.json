@@ -1,11 +1,10 @@
 {
-  "name": "3dfolio",
+  "name": "Dice Rolling Game",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "install": "npm install --legacy-peer-deps",
     "build": "vite build",
     "preview": "vite preview"
   },
