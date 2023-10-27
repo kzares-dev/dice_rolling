@@ -1,7 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSpring, animated } from '@react-spring/three';
-import { RoundedBox, Text } from '@react-three/drei';
+import { RoundedBox, Text, useFBO } from '@react-three/drei';
 import { generateRandomNumber } from '../lib/randomNumer';
+import { Quaternion, Vector3 } from 'three';
+import { useFrame } from '@react-three/fiber';
+import { calculateFace } from '../lib/calculateTopFace';
 
 export const Cube = ({ setDiceWorkflow, diceWorkflow, diceSetting, setIsAnimating }) => {
 
@@ -26,14 +29,14 @@ export const Cube = ({ setDiceWorkflow, diceWorkflow, diceSetting, setIsAnimatin
   });
 
   //
-  const handleRotate = () => {
+  const handleRotate = (duration) => {
     //check if the cube is rotating to prevent double rotations
     if (rotations.isRotating) return
     setRotations({ ...rotations, isRotating: true });
 
     //iterating to generate a random rotation, 
     //and the duration of the rotations match with the animationTime passed as param
-    for (let i = 0; i < rotations.animationTime / 200; i++) {
+    for (let i = 0; i < duration / 200; i++) {
 
       //checking for the current number and adding the rotation
       //to the call stack
@@ -54,17 +57,11 @@ export const Cube = ({ setDiceWorkflow, diceWorkflow, diceSetting, setIsAnimatin
       }, i * 200)
 
       //check if all rotaions are made, to display and return the nesesary data
-      if (i === (rotations.animationTime / 200 - 1)) {
+      if (i === (duration / 200 - 1)) {
 
         setTimeout(() => {
-          setDiceWorkflow({
-            ...diceWorkflow,
-            diceRotation: [meshRef.current.rotation.x, meshRef.current.rotation.y, meshRef.current.rotation.z],
-            diceQuaternion: meshRef.current.quaternion,
-          });
-
-          setIsAnimating(() => false);
-        }, rotations.animationTime)
+          checkTopFace()
+        }, duration)
 
 
 
@@ -73,8 +70,61 @@ export const Cube = ({ setDiceWorkflow, diceWorkflow, diceSetting, setIsAnimatin
   }
 
   useEffect(() => {
-    handleRotate()
+    handleRotate(rotations.animationTime)
   }, [])
+
+  //check if the face is a winning face 
+  const checkTopFace = () => {
+    const faceNumber = calculateFace(meshRef.current.quaternion);
+
+    let diceResult;
+    switch (faceNumber) {
+      case 1:
+        diceResult = diceSetting.faces.top;
+        break;
+
+      case 2:
+        diceResult = diceSetting.faces.right;
+        break;
+
+      case 3:
+        diceResult = diceSetting.faces.front;
+        break;
+
+      case 4:
+        diceResult = diceSetting.faces.back;
+        break;
+
+      case 5:
+        diceResult = diceSetting.faces.left;
+        break;
+
+      case 6:
+        diceResult = diceSetting.faces.bottom;
+        break;
+      default:
+        console.log("not found")
+        diceResult = diceSetting.faces.front;
+    }
+
+    let isAnyWinningFace = false;
+    Object.entries(diceSetting.faces).map(([key, value]) => {
+      if(value[1])  isAnyWinningFace = true
+    })
+    
+    if (!diceResult[1] && isAnyWinningFace ) {
+      handleRotate(200)
+    } else {
+      setIsAnimating(() => false);
+
+      setDiceWorkflow({
+        ...diceWorkflow,
+        diceResult: diceResult,
+        diceRotation: [meshRef.current.rotation.x, meshRef.current.rotation.y, meshRef.current.rotation.z],
+        showResults: true,
+      })
+    }
+  }
 
 
   return (

@@ -1,61 +1,10 @@
 import { Physics } from '@react-three/cannon'
 import { Canvas } from "@react-three/fiber";
 import { CubeWithPhisics } from './CubeWithPhisics';
-import { useEffect } from 'react';
-import { calculateFace } from '../lib/calculateTopFace';
 import { Cube } from './Cube'
 import { Ground, ShadowGround } from "./Ground"
 
-
 const CanvasComponent = ({ diceSetting, diceWorkflow, setDiceWorkflow, isAnimating, setIsAnimating }) => {
-
-    //checking if the dice is not rolling
-    //and based on that calculate the top face
-    useEffect(() => {
-        if (!isAnimating) {
-            const faceNumber = calculateFace(diceWorkflow.diceQuaternion);
-
-            let diceResult;
-            switch (faceNumber) {
-                case 1:
-                    diceResult = diceSetting.faces.top;
-                    break;
-
-                case 2:
-                    diceResult = diceSetting.faces.right;
-                    break;
-
-                case 3:
-                    diceResult = diceSetting.faces.front;
-                    break;
-
-                case 4:
-                    diceResult = diceSetting.faces.back;
-                    break;
-
-                case 5:
-                    diceResult = diceSetting.faces.left;
-                    break;
-
-                case 6:
-                    diceResult = diceSetting.faces.bottom;
-                    break;
-                default:
-                    console.log("not found")
-                    diceResult = diceSetting.faces.front;
-
-
-            }
-
-            //updating the state with the new information
-            //about the dice result, and displaying the result modal
-            setDiceWorkflow({
-                ...diceWorkflow,
-                diceResult: diceResult,
-                showResults: true,
-            })
-        }
-    }, [isAnimating])
 
     return (
         <Canvas
